@@ -1,0 +1,13 @@
+import './application.css';
+
+export default {
+    template : `
+        <menu style="margin:0px;padding:0px"></menu>
+        <div class="container">
+            <div ng-view autoscroll="true"></div>
+        </div>
+    `,
+    controller : class Application {
+        constructor() {}
+    }
+};

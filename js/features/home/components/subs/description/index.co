@@ -1,0 +1,10 @@
+import './description.css';
+
+export default {
+    template : `
+
+    `,
+    controller : class {
+        constructor() {}
+    }
+};

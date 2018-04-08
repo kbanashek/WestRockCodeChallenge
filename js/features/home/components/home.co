@@ -1,0 +1,74 @@
+import './home.css';
+
+export default {
+    template : `   
+
+       <div class="row">
+            <div class="col-sm"">
+             <h3>Home</h3>
+            </div>
+        </div>
+        <movies list="$ctrl.todos" 
+                    filterOptions="$ctrl.filterOptions"
+                    loading="$ctrl.loading" 
+                    on-toggle="$ctrl.toggleTodo(todo)" 
+                    on-add="$ctrl.addTodo(todo)" 
+                    on-archive="$ctrl.archive()"></movies>
+    `,
+    controller : class {
+
+        constructor(MovieService) {
+            this.MovieService = MovieService;
+            this.todos = [];
+            this.loading = true;
+            this.selectedName = '';
+
+        }
+
+        successCallback(response) {
+            console.log(response);
+        }
+
+        errorCallback(error) {
+            //error code
+        }
+
+        $onInit() {
+            this
+                .MovieService
+                .getInitTodos()
+                .then(todos => {
+                    this.todos = todos.data.results;
+                    this.loading = false;
+                });
+        }
+
+        addTodo(todo) {
+            this.todos = [
+                todo, ...this.todos
+            ];
+        }
+
+        toggleTodo(todo) {
+            this.todos = this
+                .todos
+                .map(t => {
+                    if (t.txt !== todo.txt) {
+                        return t;
+                    }
+                    return {
+                        finished: !todo.finished,
+                        txt: t.txt
+                    };
+                });
+        }
+
+        archive() {
+            this.todos = this
+                .todos
+                .filter(todo => !todo.finished);
+        }
+
+        $onDestroy() {}
+    }
+};

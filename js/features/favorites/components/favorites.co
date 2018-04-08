@@ -1,0 +1,10 @@
+import './favorites.css';
+
+export default {
+    template : `
+        <div>favorites</div>
+    `,
+    controller : class {
+        constructor() {}
+    }
+};

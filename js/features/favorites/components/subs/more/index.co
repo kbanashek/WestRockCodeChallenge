@@ -1,0 +1,12 @@
+import './more.css';
+
+export default {
+    template : `
+        <div id="more">
+          
+        </div>
+    `,
+    controller : class {
+        constructor() {}
+    }
+};

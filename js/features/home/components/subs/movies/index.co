@@ -1,0 +1,127 @@
+import './movies.css';
+
+import {stop} from '../../../../../fw/helper/event';
+
+export default {
+  bindings : {
+    loading: '<',
+    list: '<',
+    onAdd: '&',
+    onToggle: '&',
+    onArchive: '&'
+  },
+  template : `
+  <div id="todo-app">
+  <p ng-if="$ctrl.loading">Loading...</p>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-2">
+        <select ng-model="$ctrl.selectedName" ng-disabled="$ctrl.loading">
+          <option ng-repeat="option in $ctrl.filterOptions" ng-value="option">{{option}}</option>
+        </select>
+      </div>
+
+      <div class="col-10">
+        <div class="row card u-clearfix" ng-repeat="todo in $ctrl.list">
+          <div>
+            <div class="col-2">
+              <img ng-src="https://image.tmdb.org/t/p/w500{{todo.poster_path}}" alt="" class="card-media-img" />
+              <div class="card-media-preview u-flex-center">
+                <svg fill="#ffffff" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 5v14l11-7z" />
+                  <path d="M0 0h24v24H0z" fill="none" />
+                </svg>
+              </div>
+              <span class="card-media-tag card-media-tag-orange">Action</span>
+            </div>
+            <div class="col-9">
+              <div class="card-body">
+                <h2 class="card-body-heading">{{todo.original_title}}</h2>
+                <div class="card-body-options">
+                  <div class="card-body-option card-body-option-favorite">
+                    <svg fill="#9C948A" height="26" viewBox="0 0 24 24" width="26" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 0h24v24H0z" fill="none" />
+                      <path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div>{{todo.release_date}}</div>
+                <ul class="card-body-stars u-clearfix">
+
+                  <li>
+                    <svg fill="#D3BCA2" height="28" viewBox="0 0 18 18" width="28" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 11.3l3.71 2.7-1.42-4.36L15 7h-4.55L9 2.5 7.55 7H3l3.71 2.64L5.29 14z" />
+                      <path d="M0 0h18v18H0z" fill="none" />
+                    </svg>
+                  </li>
+                  <li>
+                    <svg fill="#D3BCA2" height="28" viewBox="0 0 18 18" width="28" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 11.3l3.71 2.7-1.42-4.36L15 7h-4.55L9 2.5 7.55 7H3l3.71 2.64L5.29 14z" />
+                      <path d="M0 0h18v18H0z" fill="none" />
+                    </svg>
+                  </li>
+                  <li>
+                    <svg fill="#D3BCA2" height="28" viewBox="0 0 18 18" width="28" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 11.3l3.71 2.7-1.42-4.36L15 7h-4.55L9 2.5 7.55 7H3l3.71 2.64L5.29 14z" />
+                      <path d="M0 0h18v18H0z" fill="none" />
+                    </svg>
+                  </li>
+                  <li>
+                    <svg fill="#D3BCA2" height="28" viewBox="0 0 18 18" width="28" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 11.3l3.71 2.7-1.42-4.36L15 7h-4.55L9 2.5 7.55 7H3l3.71 2.64L5.29 14z" />
+                      <path d="M0 0h18v18H0z" fill="none" />
+                    </svg>
+                  </li>
+                  <li>
+                    <svg fill="#D3BCA2" height="28" viewBox="0 0 18 18" width="28" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 11.3l3.71 2.7-1.42-4.36L15 7h-4.55L9 2.5 7.55 7H3l3.71 2.64L5.29 14z" />
+                      <path d="M0 0h18v18H0z" fill="none" />
+                    </svg>
+                  </li>
+                </ul>
+                <a href="#/" class="card-button card-button-link">
+                  More info
+                  <span class="card-button-icon">
+                    <svg fill="#9C948A" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 0h24v24H0z" fill="none" />
+                      <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
+                    </svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    `,
+  controller : class {
+    constructor() {
+      this.filterOptions = ["Popular Movies", "Now Playing", "Top Rated", "Upcoming"];
+    }
+
+    $onChanges(changesObj) {
+      this.previousList = changesObj.list.currentValue;
+    }
+
+    $doCheck() {
+      return this.list !== this.previousList;
+    }
+
+    toggleTodo(e, todo) {
+      stop(e);
+      this.onToggle({todo});
+    }
+
+    remaining() {
+      return this
+        .list
+        .reduce((n, todo) => n + + !todo.finished, 0);
+    }
+
+  }
+};
