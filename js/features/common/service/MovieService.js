@@ -21,10 +21,20 @@ class MovieService {
             .favorites
             .push(movie);
 
-        // Put the object into storage
         localStorage.setItem('favorites', JSON.stringify(this.favorites));
 
-        // Retrieve the object from storage
+        var favorites = localStorage.getItem('favorites');
+
+        console.log('favorites: ', JSON.parse(favorites));
+    }
+
+    removeFromFavorites(movie) {
+        this
+            .favorites
+            .push(movie);
+
+        localStorage.setItem('favorites', JSON.stringify(this.favorites));
+
         var favorites = localStorage.getItem('favorites');
 
         console.log('favorites: ', JSON.parse(favorites));
