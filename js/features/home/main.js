@@ -1,8 +1,7 @@
 import routes from './routes';
 import home from './components/home';
-import description from './components/subs/description';
 import movies from './components/subs/movies';
-import MovieService from './service/MovieService';
+import MovieService from '../common/service/MovieService';
 
 export default {
     type : 'feature',
@@ -10,7 +9,6 @@ export default {
     routes,
     component : {
         home,
-        description,
         movies
     },
     service : {

@@ -2,71 +2,60 @@ import './home.css';
 
 export default {
     template : `   
-
        <div class="row">
             <div class="col-sm"">
              <h3>Home</h3>
             </div>
+         
         </div>
-        <movies list="$ctrl.todos" 
-                    filterOptions="$ctrl.filterOptions"
+        <movies list="$ctrl.movies" 
+                    filters="$ctrl.filterOptions"
                     loading="$ctrl.loading" 
-                    on-toggle="$ctrl.toggleTodo(todo)" 
-                    on-add="$ctrl.addTodo(todo)" 
-                    on-archive="$ctrl.archive()"></movies>
+                    on-Add="$ctrl.onAddFavorite(movie)",
+                    on-update="$ctrl.onChangeFilter(selectedFilterAction)"></movies>
     `,
     controller : class {
 
         constructor(MovieService) {
             this.MovieService = MovieService;
-            this.todos = [];
+            this.movies = [];
             this.loading = true;
             this.selectedName = '';
+            this.filterOptions = ['Popular', 'Now Playing', 'Top Rated', 'Upcoming'];
+        }
+
+        onChangeFilter(selectedFilterAction) {
+            this
+                .MovieService
+                .get(selectedFilterAction.toUpperCase())
+                .then(movies => this.successCallback(movies), movies => this.errorCallback(movies));
 
         }
 
-        successCallback(response) {
-            console.log(response);
+        onAddFavorite(movie) {
+            this
+                .MovieService
+                .addToFavorites(movie);
         }
+
+        notify() {};
 
         errorCallback(error) {
-            //error code
+            console.log(error);
+        }
+
+        successCallback(movies) {
+            {
+                this.movies = movies.data.results;
+                this.loading = false;
+            }
         }
 
         $onInit() {
             this
                 .MovieService
-                .getInitTodos()
-                .then(todos => {
-                    this.todos = todos.data.results;
-                    this.loading = false;
-                });
-        }
-
-        addTodo(todo) {
-            this.todos = [
-                todo, ...this.todos
-            ];
-        }
-
-        toggleTodo(todo) {
-            this.todos = this
-                .todos
-                .map(t => {
-                    if (t.txt !== todo.txt) {
-                        return t;
-                    }
-                    return {
-                        finished: !todo.finished,
-                        txt: t.txt
-                    };
-                });
-        }
-
-        archive() {
-            this.todos = this
-                .todos
-                .filter(todo => !todo.finished);
+                .get('POPULAR')
+                .then(movies => this.successCallback(movies), movies => this.errorCallback(movies));
         }
 
         $onDestroy() {}

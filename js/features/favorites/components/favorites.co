@@ -2,9 +2,35 @@ import './favorites.css';
 
 export default {
     template : `
-        <div>favorites</div>
+    <div class="row">
+        <div class="col-sm"">
+             <h3>Favorites</h3>
+        </div>
+    </div>
+    <movies list="$ctrl.movies"></movies>
     `,
     controller : class {
-        constructor() {}
+        constructor(MovieService) {
+            this.MovieService = MovieService;
+            this.movies = [];
+        }
+
+        $onInit() {
+            this
+                .MovieService
+                .get('FAVORITES')
+                .then(movies => this.successCallback(movies), movies => this.errorCallback(movies));
+        }
+
+        errorCallback(error) {
+            console.log(error);
+        }
+
+        successCallback(movies) {
+            {
+                this.movies = movies;
+                this.loading = false;
+            }
+        }
     }
 };
